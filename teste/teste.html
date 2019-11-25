@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function searchId () {
+        // Inicia o preloader
+        startPreloader ()
+ 
+        // Recupera o value do input id
+        let id = document.getElementById('id').value
+ 
+        // Inicia requisição AJAX com o axios
+        axios.get(`https://api-pi4.herokuapp.com/banho/${id}`)
+                .then(response => {
+                    showResults (response.data)
+                })
+                .catch(error => {
+                    // console.log(error)
+ 
+                    // Mostra a div com o erro
+                    document.getElementById('error').style.display = 'block'
+ 
+                    // Mostra a mensagem
+                    document.getElementById('error').innerHTML = 'Erro inesperado'
+                })
+                .finally(() => endPreloader ())
+ 
+        event.preventDefault()
+    }
+ 
+    function showResults (address) {
+        // Mostra a div com o resultado
+        document.getElementById('results').style.display = 'block'
+ 
+        // Mostra os resultados:
+        document.getElementById('results').innerHTML = `
+            <p><b>id: </b> ${address.id} </p>
+        `
+    }
+ 
+    function startPreloader () {
+        // Exibe a div de preloader
+        document.getElementById('preloader').style.display = 'block'
+ 
+        // Limpa os dados do resultado:
+        document.getElementById('results').innerHTML = ''
+ 
+        // Oculta a div com o resultado
+        document.getElementById('results').style.display = 'none'
+ 
+        // Oculta a div com o erro
+        document.getElementById('error').style.display = 'none'
+    }
+ 
+    function endPreloader () {
+        // Oculta a div de preloader
+        document.getElementById('preloader').style.display = 'none'
+    }
+</script>
+</head>
+<body>
+        <div class="container">
+                <h1>Seus Dados</h1>
+             
+                <form id="form-id" action="#" onsubmit="searchId()" class="form form-inline">
+                    <input type="text" name="id" id="id" placeholder="Informe o id" class="form-control">
+                    <button type="submit" class="btn btn-info">Buscar</button>
+                </form>
+             
+                <div id="error" style="display: none;" class="alert alert-danger"></div>
+             
+                <div id="preloader" style="display: none;" class="alert alert-info">
+                    Carregando...
+                </div>
+             
+                <div id="results" style="display: none;"></div>
+            </div><!--Container-->
+</body>
+</html>

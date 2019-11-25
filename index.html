@@ -1,52 +1,93 @@
-<?php
-
-?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="main.css">
-    <link rel="shortcut icon" href="faviconCl.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favIcon.png" type="image/x-icon">
     <title>Ei, Sai do banho!</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
+<script>
+            let id = prompt("Digite o ID do Usuário")
+
+            axios ({ method: 'get',
+                    url: `https://api-pi4.herokuapp.com/banho/${id}`
+                    })
+                                        
+                    .then(response => {
+                        console.log(response)
+                        console.log(response.data)
+                        id = response.data.id
+                        name = response.data.user
+                        energy = response.data.energia
+                        agua = response.data.agua
+                        inic = response.data.inicio
+                        fim = response.data.fim
+
+                    myfuncition()
+                        
+                    })
+
+                    .catch(error => {
+                        console.log(error)
+                        window.location.reload(window.alert("Usuário não encontrado!"))
+                    })
+                
+                    
+                   
+                    function myfuncition(){
+
+                        document.getElementById("name").innerHTML = name
+                        document.getElementById("energy").innerHTML = energy
+                        document.getElementById("agua").innerHTML = agua
+                        document.getElementById("inic").innerHTML = inic
+                        document.getElementById("fim").innerHTML = fim
+                    }
+    </script>
     <header>
         <img src="img/logo.png" alt="logo" class="logo">
         <div>
             <img src="img/iconUser.png" alt="User">
-            <h1>Olá, %user</h1>
+            <h1>Olá, <span id="name"></span></h1>
         </div>
     </header>
     <hr>
     <section>
         <div class="consUser">
             <p class="tit">SEU CONSUMO</p>
+            <div class="clasfOne">
+                <div class="aling">
+                    <img src="img/iconCalendar.png" alt="Calendar">
+                    <p style="color: #f0f8ff"> Inicio do banho</p>
+                </div>
+                <p><span id="inic"></span></p>
+            </div> 
             <div class="clasf">
                 <div class="aling">
                     <img src="img/iconCalendar.png" alt="Calendar">
-                    <p style="color: #f0f8ff"> Período de Consumo</p>
+                    <p style="color: #f0f8ff"> Fim do banho</p>
                 </div>
-                <p>14/10/2019 a 14/11/2019</p>
+                <p><span id="fim"></span></p>
             </div> 
             <div class="clasfOne">
                 <div class="aling">
                     <img src="img/iconWater.png" alt="Water">
                     <p style="color: #ececec">Consumo de Água</p>
                 </div>
-                <p>99.0 (L)</p>
+                <p><span id="agua"></span> (L)</p>
             </div> 
             <div class="clasf">
                 <div class="aling">
                     <img src="img/iconEnergy.png" alt="Energy" style="width: 15px;">
                     <p style="color: #f0f8ff">Consumo de  Energia</p>
                 </div>
-                <p>9.4 (kW)</p>
+                <p><span id="energy"></span> (kW)</p>
             </div> 
         </div>
-        <div class="consUser">
+        <!-- <div class="consUser">
             <p class="tit">CONSUMO TOTAL</p>
             <div class="clasf">
                 <div class="aling">
@@ -69,7 +110,7 @@
                 </div>
                 <p>9.4 (kW)</p>
             </div> 
-        </div>
+        </div> -->
     </section>
     <hr style="margin: 0; border: 1.3px solid #000;">
     
@@ -82,7 +123,7 @@
             Desenvolvido pelos acadêmicos Barbara Cardoso, Elson Minervino, Ingrid Batista, Pedro Saiz e 
             Robson Rodrigues
         </p>
-        <p>Orientado pelo docente Sergio Tavares</p>
+        <p>Orientado pelo docente Sergio Tavaves</p>
     </footer>
 </body>
 </html>
